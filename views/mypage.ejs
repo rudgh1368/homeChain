@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *Must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Title -->
+    <title>HomeChain - Education &amp; Courses Template | Home</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="../public/img/core-img/favicon.ico">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../public/css/style.css">
+</head>
+<body>
+<!-- Preloader -->
+<div id="preloader">
+    <div class="spinner"></div>
+</div>
+
+<header class="header-area">
+    <!-- Navbar Area -->
+    <div class="clever-main-menu">
+        <div class="classy-nav-container breakpoint-off">
+            <!-- Menu -->
+            <nav class="classy-navbar justify-content-between" id="cleverNav">
+
+                <!-- Logo -->
+                <a class="nav-brand" href="/"><img src="../public/img/core-img/logo3.png" alt=""></a>
+
+                <!-- Navbar Toggler -->
+                <div class="classy-navbar-toggler">
+                    <span class="navbarToggler"><span></span><span></span><span></span></span>
+                </div>
+
+                <!-- Menu -->
+                <div class="classy-menu">
+
+                    <!-- Close Button -->
+                    <div class="classycloseIcon">
+                        <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                    </div>
+
+                    <!-- Nav Start -->
+                    <div class="classynav">
+                        <ul>
+                            <li><a href="/">홈</a></li>
+                            <li><a href="/addpost">글 작성</a></li>
+                            <li><a href="/listpost">글 목록</a></li>
+                            <li><a href="/registerToken">인증서 등록</a></li>
+                            <li><a href="/mypage">마이페이지</a></li>
+
+                        </ul>
+
+                        <!-- Search Button -->
+                        <div class="search-area" style="width: 400px">
+                            <form action="#" method="post">
+                            </form>
+                        </div>
+
+                        <!-- Register / Login -->
+                        <% if (!login_success) { %>
+                            <div class="register-login-area">
+                                <a href="/signup" class="btn">Register</a>
+                                <a href="/login" class="btn">Login</a>
+                            </div>
+                        <% } else { %>
+                            <div class="login-state d-flex align-items-center">
+                                <div class="user-name mr-30">
+                                    <div class="dropdown">
+                                        <a class="dropdown-toggle" href="#" role="button" id="userName"
+                                           data-toggle="dropdown" aria-haspopup="true"
+                                           aria-expanded="false"><%= user.id %></a>
+                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userName">
+                                            <a class="dropdown-item" href="/mypage">My Page</a>
+                                            <a class="dropdown-item" href="/logout">Logout</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="userthumb">
+                                    <img src="../public/img/bg-img/t1.png" alt="">
+                                </div>
+                            </div>
+                        <% } %>
+
+                    </div>
+                    <!-- Nav End -->
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+<div class="container">
+    <!-- ##### Breadcumb Area End ##### -->
+
+    <!-- ##### Catagory ##### -->
+    <!--<div class="clever-catagory bg-img d-flex align-items-center justify-content-center p-3"-->
+    <!--style="background-image: url(../public/img/bg-img/bg2.jpg);">-->
+    <section class="blog-page section-padding-100" style="padding-bottom: 0px; padding-left: 15%; padding-right: 15%">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="blog-catagories mb-70 d-flex flex-wrap justify-content-between">
+
+                        <!-- Single Catagories -->
+                        <div class="single-catagories bg-img"
+                             style="background-image: url(../public/img/bg-img/bc1.jpg);">
+                            <a href="javascript:visible('1')">
+                                <h6 id="1">시행사</h6>
+                            </a>
+                        </div>
+
+                        <!-- Single Catagories -->
+                        <div class="single-catagories bg-img"
+                             style="background-image: url(../public/img/bg-img/bc2.jpg);">
+                            <a href="javascript:visible('2')">
+                                <h6 id="2" style="color: black">투자자</h6>
+                            </a>
+                        </div>
+
+                        <!-- Single Catagories -->
+                        <div class="single-catagories bg-img"
+                             style="background-image: url(../public/img/bg-img/bc3.jpg);">
+                            <a href="javascript:visible('3')">
+                                <h6 id="3" style="color: black">시공사</h6>
+                            </a>
+                        </div>
+
+                        <!-- Single Catagories -->
+<!--                        <div class="single-catagories bg-img"-->
+<!--                             style="background-image: url(../public/img/bg-img/bc6.jpg);">-->
+<!--                            <a href="javascript:visible('4')">-->
+<!--                                <h6 id="4" style="color: black">psychology</h6>-->
+<!--                            </a>-->
+<!--                        </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--</div>-->
+
+    <!-- ##### Popular Course Area Start ##### -->
+    <section id="section1" class="popular-courses-area section-padding-100" style="padding-top: 0px">
+        <div class="container">
+            <div class="row">
+                <%
+                if(posts_role1 != 0){
+
+                for (var i = 0; i < posts_role1.length; i++){
+                    var curID = posts_role1[i]._id;
+                    var curTitle = posts_role1[i]._doc.title;
+                    var curLocation = posts_role1[i]._doc.location;
+                    var curGoal = posts_role1[i]._doc.goal_fund;
+                    var curCreated = posts_role1[i].created_at;
+                %>
+                <!-- Single Popular Course -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="single-popular-course mb-100 wow fadeInUp" data-wow-delay="250ms">
+                        <!-- Course Content -->
+                        <div class="course-content">
+                            <a href="/showpost/<%= curID %>"><h4><%= curTitle %></h4></a>
+                            <div class="meta d-flex align-items-center">
+                                <a href="#"><%= curLocation %></a>
+                                <span><i class="fa fa-circle" aria-hidden="true"></i></span>
+                                <a href="#"><%= curGoal %>만원</a>
+                            </div>
+                            <p style="word-break: break-all"><%= curCreated %></p>
+                        </div>
+                        <!-- Seat Rating Fee -->
+                        <div class="seat-rating-fee d-flex justify-content-between">
+                            <div class="seat-rating h-100 d-flex align-items-center">
+                                <div class="seat">
+                                    <i class="fa fa-user" aria-hidden="true"></i> 10
+                                </div>
+                                <div class="rating">
+                                    <i class="fa fa-star" aria-hidden="true"></i> 4.5
+                                </div>
+                            </div>
+                            <div class="course-fee h-100">
+                                <a href="/useToken/<%= curID %>">Token</a>
+                                <a href="/transactionHistory/<%= curID %>" class="free" style="float: right">Detail</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% }
+                } else { %>
+                    <div class="col-lg-2 col-md-2"></div>
+                    <div class="col-12 col-md-8 col-lg-8">
+                        <div class="single-popular-course mb-100 wow fadeInUp" data-wow-delay="250ms">
+                            <div class="course-content" style="text-align: center">
+                                <h4>해당하는 게시물이 없습니다.</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-2"></div>
+                <% } %>
+            </div>
+        </div>
+    </section>
+    <section id="section2" class="popular-courses-area section-padding-100" style="padding-top: 0px; display :none;">
+        <div class="container">
+            <div class="row">
+                <%
+                if(posts_role2 != 0){
+
+                for (var i = 0; i < posts_role2.length; i++){
+                    var curID = posts_role2[i]._id;
+                    var curTitle = posts_role2[i]._doc.title;
+                    var curLocation = posts_role2[i]._doc.location;
+                    var curGoal = posts_role2[i]._doc.goal_fund;
+                    var curCreated = posts_role2[i].created_at;
+                %>
+                <!-- Single Popular Course -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="single-popular-course mb-100 wow fadeInUp" data-wow-delay="250ms">
+                        <!-- Course Content -->
+                        <div class="course-content">
+                            <a href="/showpost/<%= curID %>"><h4><%= curTitle %></h4></a>
+                            <div class="meta d-flex align-items-center">
+                                <a href="#"><%= curLocation %></a>
+                                <span><i class="fa fa-circle" aria-hidden="true"></i></span>
+                                <a href="#"><%= curGoal %>만원</a>
+                            </div>
+                            <p style="word-break: break-all"><%= curCreated %></p>
+                        </div>
+                        <!-- Seat Rating Fee -->
+                        <div class="seat-rating-fee d-flex justify-content-between">
+                            <div class="seat-rating h-100 d-flex align-items-center">
+                                <div class="seat">
+                                    <i class="fa fa-user" aria-hidden="true"></i> 10
+                                </div>
+                                <div class="rating">
+                                    <i class="fa fa-star" aria-hidden="true"></i> 4.5
+                                </div>
+                            </div>
+                            <div class="course-fee h-100">
+                                <a href="/transactionHistory/<%= curID %>" class="free" style="float: right">Detail</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% }
+                } else { %>
+                    <div class="col-lg-2 col-md-2"></div>
+                    <div class="col-12 col-md-8 col-lg-8">
+                        <div class="single-popular-course mb-100 wow fadeInUp" data-wow-delay="250ms">
+                            <div class="course-content" style="text-align: center">
+                                <h4>해당하는 게시물이 없습니다.</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-2"></div>
+                <% } %>
+            </div>
+        </div>
+    </section>
+    <section id="section3" class="popular-courses-area section-padding-100" style="padding-top: 0px; display :none;">
+        <div class="container">
+            <div class="row">
+                <%
+                if(posts_role3 != 0){
+
+                for (var i = 0; i < posts_role3.length; i++){
+                    var curID = posts_role3[i]._id;
+                    var curTitle = posts_role3[i]._doc.title;
+                    var curLocation = posts_role3[i]._doc.location;
+                    var curGoal = posts_role3[i]._doc.goal_fund;
+                    var curCreated = posts_role3[i].created_at;
+                %>
+                <!-- Single Popular Course -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="single-popular-course mb-100 wow fadeInUp" data-wow-delay="250ms">
+                        <!-- Course Content -->
+                        <div class="course-content">
+                            <a href="/showpost/<%= curID %>"><h4><%= curTitle %></h4></a>
+                            <div class="meta d-flex align-items-center">
+                                <a href="#"><%= curLocation %></a>
+                                <span><i class="fa fa-circle" aria-hidden="true"></i></span>
+                                <a href="#"><%= curGoal %>만원</a>
+                            </div>
+                            <p style="word-break: break-all"><%= curCreated %></p>
+                        </div>
+                        <!-- Seat Rating Fee -->
+                        <div class="seat-rating-fee d-flex justify-content-between">
+                            <div class="seat-rating h-100 d-flex align-items-center">
+                                <div class="seat">
+                                    <i class="fa fa-user" aria-hidden="true"></i> 10
+                                </div>
+                                <div class="rating">
+                                    <i class="fa fa-star" aria-hidden="true"></i> 4.5
+                                </div>
+                            </div>
+                            <div class="course-fee h-100">
+                                <a href="/useToken">Token</a>
+                                <a href="/transactionHistory/<%= curID %>" class="free" style="float: right">Detail</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% }
+                } else { %>
+                    <div class="col-lg-2 col-md-2"></div>
+                    <div class="col-12 col-md-8 col-lg-8">
+                        <div class="single-popular-course mb-100 wow fadeInUp" data-wow-delay="250ms">
+                            <div class="course-content" style="text-align: center">
+                                <h4>해당하는 게시물이 없습니다.</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-2"></div>
+                <% } %>
+            </div>
+        </div>
+    </section>
+<!--    <section id="section4" class="popular-courses-area section-padding-100" style="padding-top: 0px; display :none;">-->
+<!--        <div class="container">-->
+<!--            <div class="row">-->
+<!--                &lt;!&ndash; Single Popular Course &ndash;&gt;-->
+<!--                <div class="col-12 col-md-6 col-lg-4">-->
+<!--                    <div class="single-popular-course mb-100 wow fadeInUp" data-wow-delay="250ms">-->
+<!--                        <img src="../public/img/bg-img/c1.jpg" alt="">-->
+<!--                        &lt;!&ndash; Course Content &ndash;&gt;-->
+<!--                        <div class="course-content">-->
+<!--                            <h4>English Grammar</h4>-->
+<!--                            <div class="meta d-flex align-items-center">-->
+<!--                                <a href="#">Sarah Parker</a>-->
+<!--                                <span><i class="fa fa-circle" aria-hidden="true"></i></span>-->
+<!--                                <a href="#">Art &amp; Design</a>-->
+<!--                            </div>-->
+<!--                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce enim nulla, mollis eu-->
+<!--                                metus in, sagittis</p>-->
+<!--                        </div>-->
+<!--                        &lt;!&ndash; Seat Rating Fee &ndash;&gt;-->
+<!--                        <div class="seat-rating-fee d-flex justify-content-between">-->
+<!--                            <div class="seat-rating h-100 d-flex align-items-center">-->
+<!--                                <div class="seat">-->
+<!--                                    <i class="fa fa-user" aria-hidden="true"></i> 10-->
+<!--                                </div>-->
+<!--                                <div class="rating">-->
+<!--                                    <i class="fa fa-star" aria-hidden="true"></i> 4.5-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="course-fee h-100">-->
+<!--                                <a href="#" class="free">Free</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                &lt;!&ndash; Single Popular Course &ndash;&gt;-->
+<!--                <div class="col-12 col-md-6 col-lg-4">-->
+<!--                    <div class="single-popular-course mb-100 wow fadeInUp" data-wow-delay="500ms">-->
+<!--                        <img src="../public/img/bg-img/c2.jpg" alt="">-->
+<!--                        &lt;!&ndash; Course Content &ndash;&gt;-->
+<!--                        <div class="course-content">-->
+<!--                            <h4>Vocabulary</h4>-->
+<!--                            <div class="meta d-flex align-items-center">-->
+<!--                                <a href="#">Sarah Parker</a>-->
+<!--                                <span><i class="fa fa-circle" aria-hidden="true"></i></span>-->
+<!--                                <a href="#">Art &amp; Design</a>-->
+<!--                            </div>-->
+<!--                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce enim nulla, mollis eu-->
+<!--                                metus in, sagittis</p>-->
+<!--                        </div>-->
+<!--                        &lt;!&ndash; Seat Rating Fee &ndash;&gt;-->
+<!--                        <div class="seat-rating-fee d-flex justify-content-between">-->
+<!--                            <div class="seat-rating h-100 d-flex align-items-center">-->
+<!--                                <div class="seat">-->
+<!--                                    <i class="fa fa-user" aria-hidden="true"></i> 10-->
+<!--                                </div>-->
+<!--                                <div class="rating">-->
+<!--                                    <i class="fa fa-star" aria-hidden="true"></i> 4.5-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="course-fee h-100">-->
+<!--                                <a href="#">$20</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                &lt;!&ndash; Single Popular Course &ndash;&gt;-->
+<!--                <div class="col-12 col-md-6 col-lg-4">-->
+<!--                    <div class="single-popular-course mb-100 wow fadeInUp" data-wow-delay="750ms">-->
+<!--                        <img src="../public/img/bg-img/c9.jpg" alt="">-->
+<!--                        &lt;!&ndash; Course Content &ndash;&gt;-->
+<!--                        <div class="course-content">-->
+<!--                            <h4>Expository writing</h4>-->
+<!--                            <div class="meta d-flex align-items-center">-->
+<!--                                <a href="#">Sarah Parker</a>-->
+<!--                                <span><i class="fa fa-circle" aria-hidden="true"></i></span>-->
+<!--                                <a href="#">Art &amp; Design</a>-->
+<!--                            </div>-->
+<!--                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce enim nulla, mollis eu-->
+<!--                                metus in, sagittis</p>-->
+<!--                        </div>-->
+<!--                        &lt;!&ndash; Seat Rating Fee &ndash;&gt;-->
+<!--                        <div class="seat-rating-fee d-flex justify-content-between">-->
+<!--                            <div class="seat-rating h-100 d-flex align-items-center">-->
+<!--                                <div class="seat">-->
+<!--                                    <i class="fa fa-user" aria-hidden="true"></i> 10-->
+<!--                                </div>-->
+<!--                                <div class="rating">-->
+<!--                                    <i class="fa fa-star" aria-hidden="true"></i> 4.5-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="course-fee h-100">-->
+<!--                                <a href="#">$45</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div class="row">-->
+<!--                <div class="col-12">-->
+<!--                    <div class="load-more text-center wow fadeInUp" data-wow-delay="1000ms">-->
+<!--                        <a href="#" class="btn clever-btn btn-2">Load More</a>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </section>-->
+</div>
+<!-- ##### All Javascript Script ##### -->
+<!-- jQuery-2.2.4 js -->
+<script src="../public/js/jquery/jquery-2.2.4.min.js"></script>
+<!-- Popper js -->
+<script src="../public/js/bootstrap/popper.min.js"></script>
+<!-- Bootstrap js -->
+<script src="../public/js/bootstrap/bootstrap.min.js"></script>
+<!-- All Plugins js -->
+<script src="../public/js/plugins/plugins.js"></script>
+<!-- Active js -->
+<script src="../public/js/active.js"></script>
+<script src="../public/js/jquery/jquery-jsonrpc.js"></script>
+<script>
+
+    function visible(num) {
+        var section = "section";
+        var list = ["1", "2", "3"];
+        var id;
+
+
+        for (i = 0; i < 3; i++) {
+            id = section + list[i];
+            document.getElementById(id).style.display = "none";
+            document.getElementById((i + 1).toString()).style.color = "black";
+        }
+        id = section + num;
+        document.getElementById(id).style.display = "block";
+        document.getElementById(num).style.color = "#3762f0";
+    }
+
+</script>
+</body>
+</html>

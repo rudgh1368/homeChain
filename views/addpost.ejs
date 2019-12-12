@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *Must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Title -->
+    <title>HomeChain - Education &amp; Courses Template | Home</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="../public/img/core-img/favicon.ico">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../public/css/add_style.css">
+    <link rel="stylesheet" href="../public/css/style.css">
+    <link rel="stylesheet" href="../public/fonts/material-design-iconic-font/css/material-design-iconic-font.css">
+
+    <style type="text/css">
+
+        a, a:hover {
+            color: #000000;
+            text-decoration: none;
+        }
+    </style>
+    <script>
+        function listpost(page, perPage) {
+            document.location = '/listpost?page=' + page + '&perPage=' + perPage;
+        }
+    </script>
+</head>
+
+<body>
+<div id="preloader">
+    <div class="spinner"></div>
+</div>
+<header class="header-area">
+    <!-- Navbar Area -->
+    <!-- Navbar Area -->
+    <div class="clever-main-menu">
+        <div class="classy-nav-container breakpoint-off">
+            <!-- Menu -->
+            <nav class="classy-navbar justify-content-between" id="cleverNav">
+
+                <!-- Logo -->
+                <a class="nav-brand" href="/"><img src="../public/img/core-img/logo3.png" alt=""></a>
+
+                <!-- Navbar Toggler -->
+                <div class="classy-navbar-toggler">
+                    <span class="navbarToggler"><span></span><span></span><span></span></span>
+                </div>
+
+                <!-- Menu -->
+                <div class="classy-menu">
+
+                    <!-- Close Button -->
+                    <div class="classycloseIcon">
+                        <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                    </div>
+
+                    <!-- Nav Start -->
+                    <div class="classynav">
+                        <ul>
+                            <li><a href="/">홈</a></li>
+                            <li><a href="/addpost">글 작성</a></li>
+                            <li><a href="/listpost">글 목록</a></li>
+                            <li><a href="/registerToken">인증서 등록</a></li>
+                            <li><a href="/mypage">마이페이지</a></li>
+
+                        </ul>
+
+
+                        <!-- Search Button -->
+                        <div class="search-area" style="width: 400px">
+                            <form action="#" method="post">
+                            </form>
+                        </div>
+                        <!-- Register / Login -->
+                        <% if (!login_success) { %>
+                            <div class="register-login-area">
+                                <a href="/signup" class="btn">Register</a>
+                                <a href="/login" class="btn">Login</a>
+                            </div>
+                        <% } else { %>
+                            <div class="login-state d-flex align-items-center">
+                                <div class="user-name mr-30">
+                                    <div class="dropdown">
+                                        <a class="dropdown-toggle" href="#" role="button" id="userName"
+                                           data-toggle="dropdown" aria-haspopup="true"
+                                           aria-expanded="false"><%= user.id %></a>
+                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userName">
+                                            <a class="dropdown-item" href="/mypage">My Page</a>
+                                            <a class="dropdown-item" href="/logout">Logout</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="userthumb">
+                                    <img src="../public/img/bg-img/t1.png" alt="">
+                                </div>
+                            </div>
+                        <% } %>
+
+                    </div>
+                    <!-- Nav End -->
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+<div class="container">
+    <div class="wrapper">
+        <!--<div class="image-holder">-->
+        <!--<img src="images/form-wizard.png" alt="">-->
+        <!--</div>-->
+        <form method="post" action="/addpost/write" enctype="multipart/form-data" id="frm">
+            <div id="wizard">
+                <!-- SECTION 1 -->
+                <h4></h4>
+                <section>
+                    <div class="form-row form-group">
+                        <div class="form-holder">
+                            <label>지갑주소</label>
+                            <div><b><%= user.wallet_address %></b></div>
+                            <br>
+                        </div>
+                        <div class="form-holder">
+                            <label>아이디</label>
+                            <div><b><%= user.id %></b></div>
+                            <br>
+                        </div>
+                    </div>
+                    <div class="form-row form-group">
+                        <div class="form-holder">
+                            <label>목표 모금액 (만원)</label>
+                            <input type="text" class="form-control" name="goal_fund" required>
+                        </div>
+                        <div class="form-holder">
+                            <label>모금 기한일</label>
+                            <input type="date" class="form-control" name="date" required>
+                        </div>
+                    </div>
+                    <div class="form-group form-row">
+                        <label>지역</label>
+                        <select class="custom-select my-1 mr-sm-2" name="location" required>
+                            <option selected>지역선택</option>
+                            <option value="서울">서울</option>
+                            <option value="경기">경기</option>
+                            <option value="강원">강원</option>
+                            <option value="충북">충북</option>
+                            <option value="충남">충남</option>
+                            <option value="경북">경북</option>
+                            <option value="경남">경남</option>
+                            <option value="전북">전북</option>
+                            <option value="전남">전남</option>
+                            <option value="제주">제주</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <label>제목</label>
+                        <input type="text" class="form-control" name="title" maxlength="20" required>
+                    </div>
+                </section>
+
+                <!-- SECTION 2 -->
+                <h4></h4>
+                <section>
+                    <div class="form-row">
+                        <label>
+                            개발내역 링크
+                        </label>
+                        <input type="text" class="form-control" name="link1" required>
+                    </div>
+                    <div class="form-row">
+                        <label>
+                            인허가 링크
+                        </label>
+                        <input type="text" class="form-control" name="link2" required>
+                    </div>
+                    <div class="form-row">
+                        <label>
+                            수익성분석 링크
+                        </label>
+                        <input type="text" class="form-control" name="link3" required>
+                    </div>
+                    <div class="form-row">
+                        <label>
+                            계약 지침 링크
+                        </label>
+                        <input type="text" class="form-control" name="link4" required>
+                    </div>
+                    <div class="form-row">
+                        <label>
+                            시행사정보 링크
+                        </label>
+                        <input type="text" class="form-control" name="link5" required>
+                    </div>
+                    <div class="form-row">
+                        <label>
+                            토지 정보
+                        </label>
+                        <input id="uploadFile" type="file" class="form-control-file" accept=".pdf" name="pdfFile" required>
+                    </div>
+                    <!--<div class="checkbox">-->
+                    <!--<label>-->
+                    <!--<input type="checkbox"> Create an account?-->
+                    <!--<span class="checkmark"></span>-->
+                    <!--</label>-->
+                    <!--</div>-->
+                </section>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- ##### All Javascript Script ##### -->
+<!-- jQuery-2.2.4 js -->
+<script src="../public/js/jquery/jquery-2.2.4.min.js"></script>
+<!-- Popper js -->
+<script src="../public/js/bootstrap/popper.min.js"></script>
+<!-- Bootstrap js -->
+<script src="../public/js/bootstrap/bootstrap.min.js"></script>
+<!-- All Plugins js -->
+<script src="../public/js/plugins/plugins.js"></script>
+<!-- Active js -->
+<script src="../public/js/active.js"></script>
+
+<!-- JQUERY STEP -->
+<script src="../public/js/jquery.steps.js"></script>
+<script src="../public/js/main.js"></script>
+</body>
+</html>

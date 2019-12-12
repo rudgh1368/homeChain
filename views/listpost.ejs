@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *Must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Title -->
+    <title>HomeChain - Education &amp; Courses Template | Home</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="../public/img/core-img/favicon.ico">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../public/css/style.css">
+    <style type="text/css">
+        a, a:hover {
+            color: #000000;
+            text-decoration: none;
+        }
+    </style>
+    <script>
+        function listpost(page, perPage) {
+            document.location = '/listpost?page=' + page + '&perPage=' + perPage;
+        }
+    </script>
+</head>
+
+<body>
+<div id="preloader">
+    <div class="spinner"></div>
+</div>
+<header class="header-area">
+    <!-- Navbar Area -->
+    <div class="clever-main-menu">
+        <div class="classy-nav-container breakpoint-off">
+            <!-- Menu -->
+            <nav class="classy-navbar justify-content-between" id="cleverNav">
+
+                <!-- Logo -->
+                <a class="nav-brand" href="/"><img src="../public/img/core-img/logo3.png" alt=""></a>
+
+                <!-- Navbar Toggler -->
+                <div class="classy-navbar-toggler">
+                    <span class="navbarToggler"><span></span><span></span><span></span></span>
+                </div>
+
+                <!-- Menu -->
+                <div class="classy-menu">
+
+                    <!-- Close Button -->
+                    <div class="classycloseIcon">
+                        <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                    </div>
+
+                    <!-- Nav Start -->
+                    <div class="classynav">
+                        <ul>
+                            <li><a href="/">홈</a></li>
+                            <li><a href="/addpost">글 작성</a></li>
+                            <li><a href="/listpost">글 목록</a></li>
+                            <li><a href="/registerToken">인증서 등록</a></li>
+                            <li><a href="/mypage">마이페이지</a></li>
+
+                        </ul>
+
+
+                        <!-- Search Button -->
+                        <div class="search-area" style="width: 400px">
+                            <form action="#" method="post">
+                            </form>
+                        </div>
+                        <!-- Register / Login -->
+                        <% if (!login_success) { %>
+                            <div class="register-login-area">
+                                <a href="/signup" class="btn">Register</a>
+                                <a href="/login" class="btn">Login</a>
+                            </div>
+                        <% } else { %>
+                            <div class="login-state d-flex align-items-center">
+                                <div class="user-name mr-30">
+                                    <div class="dropdown">
+                                        <a class="dropdown-toggle" href="#" role="button" id="userName"
+                                           data-toggle="dropdown" aria-haspopup="true"
+                                           aria-expanded="false"><%= user.id %></a>
+                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userName">
+                                            <a class="dropdown-item" href="/mypage">My Page</a>
+                                            <a class="dropdown-item" href="/logout">Logout</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="userthumb">
+                                    <img src="../public/img/bg-img/t1.png" alt="">
+                                </div>
+                            </div>
+                        <% } %>
+
+                    </div>
+                    <!-- Nav End -->
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+<div class="container">
+    <div class="row">
+        <table class="table table-striped" style="text-align: center; border: 1px solid #dddddd">
+            <thead>
+            <tr>
+                <th style="background-color: #eeeeee; text-align: center">번호</th>
+                <th style="background-color: #eeeeee; text-align: center">지역</th>
+                <th style="background-color: #eeeeee; text-align: center">제목</th>
+                <th style="background-color: #eeeeee; text-align: center">작성자</th>
+                <th style="background-color: #eeeeee; text-align: center">작성일</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% var noStart = (pageCount - page) * perPage;
+            for (var i = 0; i < posts.length; i++) {
+                var curTitle = posts[i]._doc.title;
+                var curLocation = posts[i]._doc.location;
+                var curWriter = posts[i]._doc.writer.id;
+                var curCreated = posts[i].createdTime;
+                var curNo = noStart - i + totalRecords;
+            %>
+            <tr style="cursor:pointer" onclick="document.location.href='/showpost/<%= posts[i]._id %>'">
+                <td><%= curNo %>
+                </td>
+                <% if (curLocation == '서울') { %>
+                    <td style="color: #F00001"><%= curLocation %>
+                    </td>
+                <% } else if(curLocation == '경기') { %>
+                    <td style="color: #3881FD"><%= curLocation %>
+                    </td>
+                <% } else if(curLocation == '강원') { %>
+                    <td style="color: #F6B003"><%= curLocation %>
+                    </td>
+                <% } else if(curLocation == '충북') { %>
+                    <td style="color: #BAD003"><%= curLocation %>
+                    </td>
+                <% } else if(curLocation == '충남') { %>
+                    <td style="color: #4EAB02"><%= curLocation %>
+                    </td>
+                <% } else if(curLocation == '경북') { %>
+                    <td style="color: #01594B"><%= curLocation %>
+                    </td>
+                <% } else if(curLocation == '경남') { %>
+                    <td style="color: #013275"><%= curLocation %>
+                    </td>
+                <% } else if(curLocation == '전북') { %>
+                    <td style="color: #460070"><%= curLocation %>
+                    </td>
+                <% } else if(curLocation == '전남') { %>
+                    <td style="color: #9E0057"><%= curLocation %>
+                    </td>
+                <% } else if(curLocation == '제주') { %>
+                    <td style="color: #BF0036"><%= curLocation %>
+                    </td>
+                <% } else { %>
+                    <td><%= curLocation %>
+                    </td>
+                <% } %>
+                <td><b><%= curTitle %></b>
+                </td>
+                <td><%= curWriter %>
+                </td>
+                <td><%= curCreated %>
+                </td>
+            </tr>
+
+            <%
+            }
+            %>
+            </tbody>
+        </table>
+        <%
+        if (page > 0) {
+        %>
+            <div class="register-login-area">
+                <a onclick="listpost(0, <%= perPage %>)" class="btn arrow">이전</a>
+                <a onclick="listpost(<%= (page - 1) %>, <%= perPage %>)" class="btn arrow">다음</a>
+            </div>
+        <%
+        } else {
+        %>
+            <div class="register-login-area">
+                <a class="btn">이전</a>
+                <a class="btn">다음</a>
+            </div>
+        <%
+        }
+        %>
+
+        <%
+        console.log(page);
+        var initial = Math.floor(page / 10) * 10;
+        console.log('initial : ' + initial);
+
+        var max = pageCount - initial;
+        if (max > 10) {
+            max = initial + 10;
+        } else {
+            max = initial + max;
+        }
+        console.log('max : ' + max);
+
+        for (var i = initial + 1; i < max; i++) {
+        if (i != page) {
+        %>
+            <div class="ui button" onclick="listpost(<%= i %>, <%= perPage %>)">
+                <%= i %>
+            </div>
+        <%
+        } else {
+        %>
+            <div class="ui active basic button">
+                <%= i %>
+            </div>
+        <%
+        }
+        }
+        %>
+        <%
+        if ((page + 1) < pageCount) {
+        %>
+            <div class="ui icon button" onclick="listpost(<%= (page + 1) %>, <%= perPage %>)">
+                <i class="right chevron icon"></i>
+            </div>
+            <div class="ui icon button" onclick="listpost(<%= (pageCount - 1) %>, <%= perPage %>)">
+                <i class="forward icon"></i>
+            </div>
+        <%
+        } else {
+        %>
+            <div class="ui disabled icon button">
+                <i class="right chevron icon"></i>
+            </div>
+            <div class="ui disabled icon button">
+                <i class="forward icon"></i>
+            </div>
+        <%
+        }
+        %>
+        <div class="register-login-area">
+            <a href="/addpost" class="btn active">글쓰기</a>
+        </div>
+    </div>
+</div>
+<!-- ##### All Javascript Script ##### -->
+<!-- jQuery-2.2.4 js -->
+<script src="../public/js/jquery/jquery-2.2.4.min.js"></script>
+<!-- Popper js -->
+<script src="../public/js/bootstrap/popper.min.js"></script>
+<!-- Bootstrap js -->
+<script src="../public/js/bootstrap/bootstrap.min.js"></script>
+<!-- All Plugins js -->
+<script src="../public/js/plugins/plugins.js"></script>
+<!-- Active js -->
+<script src="../public/js/active.js"></script>
+</body>
+</html>
