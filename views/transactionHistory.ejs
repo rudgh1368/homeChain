@@ -37,7 +37,7 @@
             <nav class="classy-navbar justify-content-between" id="cleverNav">
 
                 <!-- Logo -->
-                <a class="nav-brand" href="/"><img src="../public/img/core-img/logo3.png" alt=""></a>
+                <a class="nav-brand" href="/"><img src="../public/img/core-img/logo.png" alt=""></a>
 
                 <!-- Navbar Toggler -->
                 <div class="classy-navbar-toggler">
@@ -107,7 +107,7 @@
 <div class="container text-center" style="margin-top: 5%">
     <div class="row">
         <div class="col-sm-3">
-            <div class="jumbotron">
+            <div class="jumbotron" style="align-content: center">
                 <p>계약 이름 : example</p>
                 <p>시행사 : example</p>
                 <p>시공사 : example</p>
@@ -115,43 +115,60 @@
             <div class="jumbotron">
                 <p>상태정보</p>
 
-                    <div>
-                        <span class="badge badge-info col-sm-5">총 Token</span>
-                        <span class="col-sm-3"><%= fundingGoalMoney %></span>
-                    </div>
-                    <div style="margin-top: 3%">
-                        <span class="badge badge-info col-sm-5">사용한 Token</span>
-                        <span class="col-sm-3">test</span>
-                    </div>
-                    <div style="margin-top: 3%">
-                        <span class="badge badge-info col-sm-5">남은 Token</span>
-                        <span class="col-sm-3">test</span>
-                    </div>
-                    <div style="margin-top: 10%">
-                        <span class="badge badge-primary col-sm-5">투자 금액</span>
-                        <span class="col-sm-3">test</span>
-                    </div>
+                <div>
+                    <span class="badge badge-info col-sm-5 innerContent">총 Token</span>
+                    <span class="col-sm-3"><%= fundingMoney %></span>
+                </div>
+                <div style="margin-top: 3%">
+                    <span class="badge badge-info col-sm-5 innerContent">사용한 Token</span>
+                    <span class="col-sm-3"><%= fundingMoney - developerBalance %></span>
+                </div>
+                <div style="margin-top: 3%">
+                    <span class="badge badge-info col-sm-5 innerContent"">남은 Token</span>
+                    <span class="col-sm-3"><%= developerBalance %></span>
+                </div>
+                <div style="margin-top: 10%">
+                    <span class="badge badge-primary col-sm-5 innerContent">나의 Token</span>
+                    <span class="col-sm-3"><%= myBalance %></span>
+                </div>
+                <div style="margin-top: 3%">
+                    <span class="badge badge-primary col-sm-5 innerContent">투자 금액</span>
+                    <span class="col-sm-3"><%= investBalance %></span>
+                </div>
             </div>
         </div>
-        <div class="col-sm-7">
-            <div class="media mt-3 jumbotron" style="margin-left: 7%">
-                <div>
-                 <img src="../public/img/bg-img/t1.png" class="align-self-center mr-3" style="width:60px">
-                    <p class="align-self-center mr-3">시행사</p>
-                </div>
-                <div class="media-body align-self-center mr-3">
-                    <h6>content : 시행중</h6>
-                    <p>vaule : 100$ </p>
-                 </div>
-                <div>
-                    <img src="../public/img/bg-img/t1.png" class="align-self-center mr-3" style="width:60px">
-                    <p class="align-self-center mr-3">시공사</p>
+        <div class="col-sm-9">
+            <div class="jumbotron section-padding-50">
+                <div class="example-1 square scrollbar-cyan bordered-cyan" style="height: 500px;">
+                    <%
+                    for (i=0;i<contents.length;i++){
+                        var fromAddress = contents[i].fromAddress;
+                        var toAddress = contents[i].toAddress;
+                        var amout = contents[i].amount;
+                        var content = contents[i].content;
+                    %>
+                    <div class="media mt-3 page-content" style="margin: 7%; background-color: white">
+                        <div>
+                            <img src="../public/img/bg-img/t1.png" class="align-self-center mr-3" style="width:60px">
+                            <p class="align-self-center mr-3"><%= fromAddress%></p>
+                        </div>
+                        <div class="media-body align-self-center mr-3">
+                            <h6>content : <%= content %></h6>
+                            <p>vaule : <%= amout %></p>
+                        </div>
+                        <div>
+                            <img src="../public/img/bg-img/t1.png" class="align-self-center mr-3" style="width:60px">
+                            <p class="align-self-center mr-3"><%= toAddress %></p>
+                        </div>
+                    </div>
+                    <%}%>
+
                 </div>
             </div>
-
         </div>
     </div>
 </div>
+
 <!-- ##### Regular Page Area End ##### -->
 
 <!-- ##### Footer Area Start ##### -->
@@ -167,12 +184,12 @@
                     </div>
                     <!-- Copywrite -->
                     <p><a href="#">
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        Copyright &copy;<script>document.write(new Date().getFullYear());</script>
-                        All rights reserved | This template is made with <i class="fa fa-heart-o"
-                                                                            aria-hidden="true"></i> by <a
-                            href="https://colorlib.com" target="_blank">Colorlib</a>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            Copyright &copy;<script>document.write(new Date().getFullYear());</script>
+                            All rights reserved | This template is made with <i class="fa fa-heart-o"
+                                                                                aria-hidden="true"></i> by <a
+                                    href="https://colorlib.com" target="_blank">Colorlib</a>
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
                 </div>
             </div>
         </div>

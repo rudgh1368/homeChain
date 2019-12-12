@@ -1,0 +1,20 @@
+-----------------------------------
+1. footer 내용 변경 [해결 완료]-> 폰, 이메일 내용만 변경 필요
+2. 등록할때 기간 duration error [해결 완료]
+5. 뱀 -> 집 사진 [해결 완료]
+5_ 뱀위에 이상한거 지우기 [해결 완료]
+6. registerToken footer 아래로 [해결 완료] 
+9.createToken 로그인 네비게이션 [해결 완료]
+9_showpost -> 시공사 등록 완료되면 버튼 없얘기 [해결 완료]
+10. registerConstructor footer [해결 완료]
+14. token 보냇을때 page error [해결 완료]
+1. index 부족한 화면 [무리] 
++ registerToken 때, 파일 certification에 저장 [해결 완료]
+
+13. transactionHistory 
+ - 계약이름, 시행사, 시공사 db접속 필요! 
+ - 트랜잭션 발생시킨 사람들 이름 필요!
+    -> address는 가져온상황
+ [그 외 해결]
+
+즈악!

@@ -97,7 +97,8 @@ contract crowdsaleHNC is ERC20{
         require(!registeredBuildingCostructor);
 
         buildingCostructor = to;
-
+        interestedPersons[to].position = 4;
+        interestedPersons[to].registerState = true;
         registeredBuildingCostructor = true;
     }
 

@@ -381,6 +381,7 @@ var showpost = function (req, res) {
                 var userPosts = req.user.posts;
                 var master;
                 for (var i = 0; i < userPosts.length; i++){
+                    console.log("!!userPosts : ", userPosts[i]);
                     if (userPosts[i].smart_addr == contractAddress){
                         if (userPosts[i].role == 1){
                             master = 1;
@@ -391,6 +392,7 @@ var showpost = function (req, res) {
                         }
                     } else master = 0;
                 }
+                console.log("userPosts : ", userPosts);
                 console.log("smartContract adderss : ", contractAddress);
 
 
@@ -404,6 +406,9 @@ var showpost = function (req, res) {
 
                     if (buildingConstructor == "0x0000000000000000000000000000000000000000"){
                         buildingConstructor = "등록 X";
+                    }
+                    else{
+                        master = 2;
                     }
 
                     switch (state) {

@@ -17,19 +17,28 @@ var createToken = function (req, res) {
             'location.href="/"</script>');
         res.end();
     } else{
-        res.render('createToken.ejs', {output : undefined});
+        var context = {}
+        console.log('사용자 인증된 상태임.');
+        console.log('회원정보 로드.');
+        console.dir(req.user);
+        context.login_success = true;
+        context.user = req.user;
+        context.output = undefined;
+        res.render('createToken.ejs', context);
     }
 
 
 }
 
 var create = function (req, res) {
+    var context = {}
     console.log("addToken/create 접근");
     console.log("to : ", req.body.to);
     console.log("investmentAmount : ", req.body.investmentAmount);
     console.log("smartContractAddress : ", req.body.smartContractAddress);
     console.log("investmentForm : ", req.body.investmentForm);
-
+    context.login_success = true;
+    context.user = req.user;
     var to = req.body.to;
     var investmentAmount = req.body.investmentAmount;
     var smartContractAddress = req.body.smartContractAddress;
@@ -46,14 +55,14 @@ var create = function (req, res) {
         var fileName = './' + message + '.json';
 
         fs.writeFileSync(fileName ,json, 'utf8');
-
-        res.render('createToken.ejs', {output : "success"});
+        context.output = "success";
+        res.render('createToken.ejs', context);
     });
 
     }else{
         console.log("입력요구");
-
-        res.render('createToken.ejs', {output : "fail"});
+        context.output = "fail";
+        res.render('createToken.ejs', context);
     }
 };
 
