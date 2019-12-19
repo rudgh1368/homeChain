@@ -37,7 +37,6 @@ var transactionHistory = function (req, res){
                     var contractAddress = results.smart_addr;
                     var paramEncryptionWallet = req.user.accountEncryption;
                     var paramWalletPassword = req.user.wallet_password;
-                    
 
                     console.log("contractAddress : ", contractAddress);
                     connect.checkMypageState(paramEncryptionWallet, paramWalletPassword, contractAddress, function (result) {
@@ -59,6 +58,7 @@ var transactionHistory = function (req, res){
                         context.fundingMoney = fundingMoney;
                         context.investBalance = investBalance;
                         context.paramId = paramId;
+                        context.title = results.title;
 
                         var contents = new Array();
 
@@ -74,7 +74,6 @@ var transactionHistory = function (req, res){
                                     res.end();
                                     return;
                                 }
-                                res.end(html);
                             });
                         }
                         else {
@@ -109,16 +108,30 @@ var transactionHistory = function (req, res){
                                 if (index == statementLength-1) {
                                     console.log('callValue 만족')
                                     context.contents = contents;
-                                    console.log("context.contents[0]", context.contents[0])
-                                    req.app.render('transactionHistory', context, function (err, html) {
-                                        if (err) {
-                                            console.error('응답 웹문서 생성 중 에러 발생 : ' + err.stack);
-                                            res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
-                                            res.write('<script>alert("응답 웹문서 생성 중 에러 발생" + err.stack);' + 'location.href="/mypage"</script>');
-                                            res.end();
-                                            return;
+                                    database.CodeModel.findAddr(paramId, async function(err, codeResult){
+                                        if (codeResult) {
+                                            context.code = ((codeResult[0].code)*1).toString(16);
+                                            await database.UserModel.findByWallet(contents[0].fromAddress, async function(err, fromResult) {
+                                                if (fromResult){
+                                                    context.fromId = fromResult[0].id;
+                                                    await database.UserModel.findByWallet(contents[0].toAddress, async function(err, toResult) {
+                                                        if (toResult){
+                                                            context.toId = toResult[0].id;
+                                                            await req.app.render('transactionHistory', context, function (err, html) {
+                                                                if (err) {
+                                                                    console.error('응답 웹문서 생성 중 에러 발생 : ' + err.stack);
+                                                                    res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                                                                    res.write('<script>alert("응답 웹문서 생성 중 에러 발생" + err.stack);' + 'location.href="/mypage"</script>');
+                                                                    res.end();
+                                                                    return;
+                                                                }
+                                                                return res.end(html);
+                                                            });
+                                                        }
+                                                    });
+                                                }
+                                            });
                                         }
-                                        res.end(html);
                                     });
                                 }
                                 else {
