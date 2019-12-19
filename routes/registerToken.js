@@ -53,10 +53,13 @@ var register = function (req, res) {
             console.log("files", files.signedToken);
             console.log("name : ", files.signedToken.name);
 
-            registerBC.readEncryptionFile(encryptionWallet, walletPassword, files.signedToken.name, files.signedToken.path, function (result) {
+            registerBC.readEncryptionFile(encryptionWallet, walletPassword, files.signedToken.name, files.signedToken.path, function (result1, result2) {
 
                 // result == true 체크
-                if (result == true) {
+                if (result1 == true) {
+                    if (result2 == true) {
+                        console.log("돈 다모엿다 와아");
+                    }
                     var name = files.signedToken.name.split("|");
                     var contractAddress = name[0];
                     var walletAddress = name[1];
