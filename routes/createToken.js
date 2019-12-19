@@ -24,37 +24,58 @@ var createToken = function (req, res) {
 }
 
 var create = function (req, res) {
+    var database = req.app.get('database');
+    var smartContractAddress;
+    var to;
+
     console.log("addToken/create 접근");
     console.log("to : ", req.body.to);
     console.log("investmentAmount : ", req.body.investmentAmount);
     console.log("smartContractAddress : ", req.body.smartContractAddress);
     console.log("investmentForm : ", req.body.investmentForm);
 
-    var to = req.body.to;
+    var targetId = req.body.to;
     var investmentAmount = req.body.investmentAmount;
-    var smartContractAddress = req.body.smartContractAddress;
+    var code = req.body.smartContractAddress.toString(10)*1;
     var investmentForm = req.body.investmentForm;
 
-    if(to && investmentAmount && smartContractAddress && investmentForm) {
-    console.log("정상입력");
 
-    var message = smartContractAddress + "|" + to + "|" + investmentAmount + '|' + investmentForm + "|";
+    database.CodeModel.findCode(code, function (err, codeResult){
+        if (err) return;
+        if (codeResult) {
+            database.UserModel.findById(targetId, function (err, userResult){
+               if (err) return;
+               if (userResult) {
 
-    // sign (contractaddress/to/index/investmentAmount) index -> 1 : 투자자, 2: 수분양자
-    connection.signToken(message, function (signedToken) {
-        var json = JSON.stringify(signedToken);
-        var fileName = './' + message + '.json';
+                   smartContractAddress = codeResult[0].smart_addr.smart_addr;
+                   to = userResult[0].wallet_address;
 
-        fs.writeFileSync(fileName ,json, 'utf8');
+                   if(to && investmentAmount && smartContractAddress && investmentForm) {
+                       console.log("정상입력");
 
-        res.render('createToken.ejs', {output : "success"});
+                       var message = smartContractAddress + "|" + to + "|" + investmentAmount + '|' + investmentForm + "|";
+
+                       // sign (contractaddress/to/index/investmentAmount) index -> 1 : 투자자, 2: 수분양자
+                       connection.signToken(message, function (signedToken) {
+                           var json = JSON.stringify(signedToken);
+                           var fileName = './' + message + '.json';
+
+                           fs.writeFileSync(fileName ,json, 'utf8');
+
+                           res.render('createToken.ejs', {output : "success"});
+                       });
+
+                   }else{
+                       console.log("입력요구");
+
+                       res.render('createToken.ejs', {output : "fail"});
+                   }
+               }
+            });
+
+        }
     });
 
-    }else{
-        console.log("입력요구");
-
-        res.render('createToken.ejs', {output : "fail"});
-    }
 };
 
 module.exports.createToken = createToken;

@@ -8,41 +8,92 @@ var useToken = function (req, res) {
         res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
         res.write('<script>alert("먼저 로그인해주세요.");' +
             'location.href="/login"</script>');
-        res.end();
-    } else {
-        var paramId = req.body.id || req.query.id || req.params.id;
-        var context = {};
-        console.log('사용자 인증된 상태임.');
-        console.log('회원정보 로드.');
-        console.dir(req.user);
-        context.login_success = true;
-        context.user = req.user;
-        context.output = undefined;
+        return res.end();
+    }
 
-        var database = req.app.get('database');
+    var database = req.app.get('database');
+    var paramId = req.body.id || req.query.id || req.params.id;
 
-        if (database.db) {
-            database.PostModel.load(paramId, function (err, results) {
-                if (err) {
-                    console.error('글 조회 중 에러 발생 : ' + err.stack);
-
+    if (database.db) {
+        database.PostModel.load(paramId, function (err, result) {
+            if (err) {
+                console.log('error occured.');
+                res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                res.write('<script>alert("Database Error occured");' +
+                    'location.href="/mypage"</script>');
+                return res.end();
+            }
+            if (result) {
+                if (result == null) {
+                    console.log('잘못된 접근.');
                     res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
-                    res.write('<script>alert("글 조회 중 에러 발생" + err.stack);' +
-                        'location.href="/mypage"</script>');
-                    res.end();
-                    return;
-                }
+                    res.write('<script>alert("잘못된 접근입니다.");' +
+                        'location.href="/"</script>');
+                    return res.end();
+                } else {
+                    if (result.writer.id != req.user.id) {
+                        console.log('권한이 없음.');
+                        res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                        res.write('<script>alert("권한이 없습니다.");' +
+                            'location.href="/"</script>');
+                        return res.end();
+                    } else {
+                        var context = {};
+                        console.log("@@@@@@", result.smart_addr);
+                        database.UserModel.find3(result.smart_addr, function (err, results) {
+                            if (err) {
+                                console.log('error occured.');
+                                res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                                res.write('<script>alert("Database Error occured");' +
+                                    'location.href="/mypage"</script>');
+                                return res.end();
+                            }
+                            if (results[0] != null) {
+                                // console.log('사용자 인증된 상태임.');
+                                // console.log('회원정보 로드.');
+                                // console.dir(req.user);
 
-                if (results) {
-                    res.render('useToken.ejs', context);
+                                console.log("#####", results);
+                                context.login_success = true;
+                                context.user = req.user;
+                                context.output = undefined;
+                                context.smartContractAddress = results[0].posts.smart_addr;
+                                context.title = results[0].posts.title;
+                                context.toAddress = results[0].wallet_address;
+                                context.toId = results[0].id;
+
+                                res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                                req.app.render('useToken', context, function (err, html) {
+                                    if (err) {
+                                        console.error('응답 웹문서 생성 중 에러 발생 : ' + err.stack);
+
+                                        res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                                        res.write('<script>alert("응답 웹문서 생성 중 에러 발생" + err.stack);' +
+                                            'location.href="/mypage"</script>');
+                                        res.end();
+                                        return;
+                                    }
+                                    res.end(html);
+                                });
+                            } else {
+                                console.log('시공사를 먼저 등록.');
+                                res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                                res.write('<script>alert("시공사를 먼저 등록해 주세요.");' +
+                                    'location.href="/mypage"</script>');
+                                return res.end();
+                            }
+                        });
+
+                    }
                 }
-            });
-        } else {
-            res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
-            res.write('<script>alert("데이터베이스 연결 실패" + err.stack);' +
-                'location.href="/mypage"</script>');
-            res.end();
-        }
+            } else {
+                res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                res.write('<script>alert("데이터베이스 연결 실패" + err.stack);' +
+                    'location.href="/mypage"</script>');
+                res.end();
+            }
+
+        });
     }
 }
 

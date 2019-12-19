@@ -118,6 +118,12 @@ userSchema.createSchema = function (mongoose) {
         findById: function (id, callback) {
             return this.find({id: id}, callback);
         },
+        findByWallet: function(walletAddress, callback){
+            return this.find({wallet_address: walletAddress}, callback);
+        },
+        findByObjId: function(ObjId, callback){
+            return this.find({posts: {$elemMatch: {_id: ObjectId(ObjId) }}}, callback);
+        },
         adding_post: function (id, title, smart_add, callback) {
             this.update({id: id}, {$push: {posts: {title: title, role: 1, smart_addr: smart_add}}}, function (e) {
             });
@@ -154,8 +160,14 @@ userSchema.createSchema = function (mongoose) {
                     {$unwind: "$posts"},
                     {$match: {"posts.role": 3}}],
                 callback);
+        },
+        find3: function (smart_addr, callback) {
+            return this.aggregate(
+                [   {$unwind: "$posts"},
+                    {$match: {"posts.role": 3, "posts.smart_addr": smart_addr}}
+                    ],
+                callback);
         }
-
     }
 
 

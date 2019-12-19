@@ -100,14 +100,14 @@ body {
         background: #f3d4b7;
         transition: all 0.5s ease; }
     .steps ul:before {
-      content: "게시물 등록 ";
+      content: "게시물 등록 - 필수입력";
       font-size: 22px;
       font-family: "Poppins-SemiBold";
       color: #333;
       top: -38px;
       position: absolute; }
     .steps ul.step-2:before {
-      content: "게시물 등록 - 상세"; }
+      content: "게시물 등록 - 상세정보"; }
     /*.steps ul.step-3:before {*/
       /*content: "Your Order"; }*/
     /*.steps ul.step-4:before {*/

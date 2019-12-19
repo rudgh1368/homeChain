@@ -90,21 +90,21 @@
 
             <form method="post" action="/createToken/create">
                 <div class="form-group">
-                    <label>스마트 컨트랙트 주소</label>
-                    <input type="text" class="form-control" placeholder="Contract Address" name="smartContractAddress" minlength="42" maxlength="42" required>
+                    <label>거래 코드 (0x...)</label>
+                    <input type="text" class="form-control" placeholder="ex) 0xA" name="smartContractAddress" required>
                 </div>
                 <div class="form-group">
-                    <label>투자자 지갑 주소</label>
-                    <input type="text" class="form-control" placeholder="Wallet Address" name="to" minlength="42" maxlength="42" required>
+                    <label>투자자 ID</label>
+                    <input type="text" class="form-control" placeholder="투자자 ID" name="to" required>
                 </div>
                 <div class="form-group">
                     <label>투자금(만원)</label>
-                    <input type="text" class="form-control" placeholder="Investment Amount" name="investmentAmount" maxlength="20" required>
+                    <input type="text" class="form-control" placeholder="투자금" name="investmentAmount" maxlength="20" required>
                 </div>
-                <div class="form-group">
-                    <label>투자형태</label>&nbsp;&nbsp;&nbsp;<lable id="comment" style="font-size: x-small;color: #0c5460;">2:투자자, 3:수분양자</lable>
-                    <input type="text" class="form-control" placeholder="2" name="investmentForm" maxlength="20" required>
-                </div>
+                <!--<div class="form-group">-->
+                    <!--<label>투자형태</label>&nbsp;&nbsp;&nbsp;<lable id="comment" style="font-size: x-small;color: #0c5460;">2:투자자, 3:수분양자</lable>-->
+                    <input type="hidden" class="form-control" placeholder="2" name="investmentForm" maxlength="20" value="2" required>
+                <!--</div>-->
                 <input type="submit" class="btn btn-info form-control" value="create" style="margin-top: 5%">
             </form>
         </div>

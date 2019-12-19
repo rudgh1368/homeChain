@@ -6,7 +6,6 @@ var database = {};
 // 초기화를 위해 호출하는 함수
 database.init = function(app, config) {
     console.log('init() 호출됨.');
-
     connect(app, config);
 }
 
@@ -18,7 +17,6 @@ function connect(app, config) {
     mongoose.Promise = global.Promise;  // mongoose의 Promise 객체는 global의 Promise 객체 사용하도록 함
     mongoose.connect(config.db_url, { useNewUrlParser: true });
     database.db = mongoose.connection;
-
 
     database.db.on('error', console.error.bind(console, 'mongoose connection error.'));
     database.db.on('open', function () {

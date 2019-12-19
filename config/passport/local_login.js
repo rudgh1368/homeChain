@@ -1,5 +1,4 @@
 // 로컬 인증 방식을 사용하는 패스포트 설정
-
 var LocalStrategy = require('passport-local').Strategy;
 
 module.exports = new LocalStrategy({
@@ -26,7 +25,7 @@ module.exports = new LocalStrategy({
 
         if (!authenticated) {
             console.log('비밀번호 일치하지 않음.');
-            return done(null, false, req.flash('loginMessage'), '비밀번호가 일치하지 않습니다.');  // 검증 콜백에서 두 번째 파라미터의 값을 false로 하여 인증 실패한 것으로 처리
+            return done(null, false, req.flash('loginMessage', '비밀번호가 일치하지 않습니다.'));  // 검증 콜백에서 두 번째 파라미터의 값을 false로 하여 인증 실패한 것으로 처리
         }
 
         // 정상적인 시도

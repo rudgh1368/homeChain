@@ -4,7 +4,8 @@ module.exports = {
     jsonrpc_api_path : '/api',
     db_schemas: [
         {file:'./user_schema', collection:'hncUsers', schemaName:'UserSchema', modelName:'UserModel'},
-        {file:'./post_schema', collection:'hncPosts', schemaName:'PostSchema', modelName:'PostModel'}
+        {file:'./post_schema', collection:'hncPosts', schemaName:'PostSchema', modelName:'PostModel'},
+        {file:'./code_schema', collection:'hncCodes', schemaName:'CodeSchema', modelName:'CodeModel'}
     ],
     route_info: [
         //===== post =====//
