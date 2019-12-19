@@ -28,11 +28,19 @@ module.exports = {
         connection.investBuilding(accountEncryption, password, contractAddress, toAddress, messageHash, v, r, s, investmentAmount, investmentForm, function (result) {
             if(result){
                 console.log("등록완료");
-                callback(true);
+                connection.checkInvestState(accountEncryption, password, contractAddress, function (result) {
+                    var state = result[3];
+                    if (state == 1) {
+                        callback(true, true);
+                    }else {
+                        callback(true, false);
+                    }
+                })
             }else{
                 console.log("등록실패");
-                callback(false);
+                callback(false, false);
             }
         })
     }
 };
+
