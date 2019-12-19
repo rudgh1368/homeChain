@@ -534,19 +534,23 @@ var showpost = function (req, res) {
                                 context.master = master;
                                 context.paramId = paramId;
 
-                                req.app.render('showpost', context, function (err, html) {
-                                    if (err) {
-                                        console.error('응답 웹문서 생성 중 에러 발생 : ' + err.stack);
+                                database.CodeModel.findAddr(paramId, async function(err, codeResults) {
+                                    if (codeResults){
+                                        context.code = (codeResults[0].code*1).toString(16);
+                                        await req.app.render('showpost', context, function (err, html) {
+                                            if (err) {
+                                                console.error('응답 웹문서 생성 중 에러 발생 : ' + err.stack);
 
-                                        res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
-                                        res.write('<script>alert("응답 웹문서 생성 중 에러 발생" + err.stack);' +
-                                            'location.href="/listpost"</script>');
-                                        res.end();
-                                        return;
+                                                res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                                                res.write('<script>alert("응답 웹문서 생성 중 에러 발생" + err.stack);' +
+                                                    'location.href="/listpost"</script>');
+                                                res.end();
+                                                return;
+                                            }
+                                            res.end(html);
+                                        });
                                     }
-
-                                    res.end(html);
-                                });
+                                })
                             }
                         });
 
