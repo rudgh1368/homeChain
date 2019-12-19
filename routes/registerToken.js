@@ -45,7 +45,7 @@ var register = function (req, res) {
         var walletPassword = req.user.wallet_password;
 
         var form = new formidable.IncomingForm();
-        var uri = __dirname + '/../';
+        var uri = __dirname + '/../certification/';
 
         form.uploadDir = uri;
         form.keepExtensions = true;

@@ -17,7 +17,14 @@ var createToken = function (req, res) {
             'location.href="/"</script>');
         res.end();
     } else{
-        res.render('createToken.ejs', {output : undefined});
+        var context = {}
+        console.log('사용자 인증된 상태임.');
+        console.log('회원정보 로드.');
+        console.dir(req.user);
+        context.login_success = true;
+        context.user = req.user;
+        context.output = undefined;
+        res.render('createToken.ejs', context);
     }
 
 

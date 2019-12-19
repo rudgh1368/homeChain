@@ -37,83 +37,99 @@ var transactionHistory = function (req, res){
                     var contractAddress = results.smart_addr;
                     var paramEncryptionWallet = req.user.accountEncryption;
                     var paramWalletPassword = req.user.wallet_password;
+                    
 
                     console.log("contractAddress : ", contractAddress);
+                    connect.checkMypageState(paramEncryptionWallet, paramWalletPassword, contractAddress, function (result) {
 
-                    connect.checkUseTokenAmount(paramEncryptionWallet, paramWalletPassword, contractAddress, function (transactionLength) {
+                        var myBalance = result[0];
+                        var developerBalance = result[1];
+                        var fundingMoney = result[2];
+                        var investBalance = result[3];
+                        var statementLength = result[4];
 
-                        var output = new Array();
+                        console.log("myBalance : ", myBalance);
+                        console.log("developerBalance : ", developerBalance);
+                        console.log("fundingMoney : ", fundingMoney);
+                        console.log("investBalance : ", investBalance);
+                        console.log("statementLength : ", statementLength);
 
-                        new Promise(function(resolve, reject){
-                            for(var i=0; i<transactionLength; i++){
-                                connect.checkUseToken(paramEncryptionWallet, paramWalletPassword, contractAddress, i, function (transaction) {
-                                    var temp= {};
-                                    temp.from = transaction[0];
-                                    temp.to = transaction[1];
-                                    temp.amount = transaction[2];
-                                    temp.content = transaction[3];
-                                    output.push(temp);
-                                });
-                            }
-                            resolve(output);
-                        }).then(function(output) {
-                            context.output = output;
-                            console.log("server outut : ", output)
+                        context.myBalance = myBalance;
+                        context.developerBalance= developerBalance;
+                        context.fundingMoney = fundingMoney;
+                        context.investBalance = investBalance;
+                        context.paramId = paramId;
 
-                            connect.checkInvestState(paramEncryptionWallet, paramWalletPassword, contractAddress, function (result) {
+                        var contents = new Array();
 
-                                var fundingGoalMoney = result[0];
-                                var amountRaised = result[1];
-                                var interestedPersonsNumber = result[2];
-                                var state = result[3];
-                                var buildingConstructor = result[4];
+                        if (statementLength == 0 ) {
+                            context.contents = contents;
+                            req.app.render('transactionHistory', context, function (err, html) {
+                                if (err) {
+                                    console.error('응답 웹문서 생성 중 에러 발생 : ' + err.stack);
 
-                                if (buildingConstructor == "0x0000000000000000000000000000000000000000") {
-                                    buildingConstructor = "등록 X";
+                                    res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                                    res.write('<script>alert("응답 웹문서 생성 중 에러 발생" + err.stack);' +
+                                        'location.href="/mypage"</script>');
+                                    res.end();
+                                    return;
                                 }
-
-                                switch (state) {
-                                    case '0' :
-                                        state = "투자 진행중";
-                                        break;
-                                    case '1' :
-                                        state = "투자 완료, 시공중";
-                                        break;
-                                    case '2' :
-                                        state = "종료";
-                                        break;
-                                    case '3' :
-                                        state = "시공 완료";
-                                        break;
-                                    case '4' :
-                                        state = "종료";
-                                        break;
-                                }
-
-                                console.log("buildingConstructor : ", buildingConstructor);
-                                console.log("state : ", state);
-
-                                context.fundingGoalMoney = fundingGoalMoney;
-                                context.amountRaised = amountRaised;
-                                context.interestedPersonsNumber = interestedPersonsNumber;
-                                context.state = state;
-                                context.buildingConstructor = buildingConstructor;
-                                context.paramId = paramId;
-
-                                req.app.render('transactionHistory', context, function (err, html) {
-                                    if (err) {
-                                        console.error('응답 웹문서 생성 중 에러 발생 : ' + err.stack);
-
-                                        res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
-                                        res.write('<script>alert("응답 웹문서 생성 중 에러 발생" + err.stack);' +
-                                            'location.href="/mypage"</script>');
-                                        res.end();
-                                        return;
-                                    }
-                                    res.end(html);
-                                });
+                                res.end(html);
                             });
-                        });
+                        }
+                        else {
+                            index = 0;
+                            var callValue = function(index) {
+                                return new Promise(function (resolve, reject) {
+                                    connect.checkUseToken(paramEncryptionWallet, paramWalletPassword, contractAddress, index, function (result2) {
+                                        console.log(index)
+                                        var fromAddress = result2[0];
+                                        var toAddress = result2[1];
+                                        var amout = result2[2];
+                                        var content = result2[3];
+
+                                        console.log(index, "번째 content")
+                                        console.log("fromAddress : ", fromAddress);
+                                        console.log("toAddress : ", toAddress);
+                                        console.log("amout : ", amout);
+                                        console.log("content : ", content);
+
+                                        var output = {};
+                                        output.fromAddress = fromAddress;
+                                        output.toAddress = toAddress;
+                                        output.amount = amout;
+                                        output.content = content;
+
+                                        contents.push(output);
+                                        resolve(index);
+                                    })
+                                })
+                            }
+                            callValue(index).then(function (index) {
+                                if (index == statementLength-1) {
+                                    console.log('callValue 만족')
+                                    context.contents = contents;
+                                    console.log("context.contents[0]", context.contents[0])
+                                    req.app.render('transactionHistory', context, function (err, html) {
+                                        if (err) {
+                                            console.error('응답 웹문서 생성 중 에러 발생 : ' + err.stack);
+                                            res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                                            res.write('<script>alert("응답 웹문서 생성 중 에러 발생" + err.stack);' + 'location.href="/mypage"</script>');
+                                            res.end();
+                                            return;
+                                        }
+                                        res.end(html);
+                                    });
+                                }
+                                else {
+                                    console.log('callValue 불만족')
+                                    index +=1
+                                    callValue(index)
+                                }
+                            }, function (error) {
+                                console.log("callValue error", error);
+                            })
+                        }
                     });
                 };
             });

@@ -116,14 +116,15 @@ contract HNC is ERC20, ERC20Detailed, Ownable, crowdsaleHNC, bankCheck{
         return (statement[serial].fromAddress, statement[serial].toAddress, statement[serial].amout, statement[serial].content);
     }
 
-    function checkMypageState() public view checkSuccessCrowdSaleClosed() RegistrationCheck() returns(uint256,uint256,uint256,uint256) {
+    function checkMypageState() public view checkSuccessCrowdSaleClosed() RegistrationCheck() returns(uint256,uint256,uint256,uint256, uint256) {
         uint256 myBalance = balanceOf(msg.sender);
         uint256 ownerBalance = balanceOf(owner());
 
         uint256 fundingGoalMoney = getFundingGoal();
         uint256 investMoney = getInvestMoney();
+        uint256 statementLength = checkUseTokenAmount();
 
-        return (myBalance, ownerBalance, fundingGoalMoney, investMoney);
+        return (myBalance, ownerBalance, fundingGoalMoney, investMoney, statementLength);
     }
 
 }

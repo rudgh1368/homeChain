@@ -475,7 +475,6 @@ var showpost = function (req, res) {
                     }
                     console.log("smartContract adderss : ", contractAddress);
 
-
                     connection.checkInvestState(paramEncryptionWallet, paramWalletPassword, contractAddress, function (result) {
 
                         var fundingGoalMoney = result[0];
