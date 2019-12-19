@@ -529,7 +529,7 @@ var showpost = function (req, res) {
                                 if (result[0] == null) {
                                     context.buildingConstructor = buildingConstructor;
                                 } else {
-                                    context.buildingConstructor = result[0].name;
+                                    context.buildingConstructor = result[0].id;
                                 }
                                 context.master = master;
                                 context.paramId = paramId;

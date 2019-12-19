@@ -39,6 +39,11 @@ CodeSchema.createSchema = function (mongoose) {
             return this.find({code: code})
                 .populate('smart_addr')
                 .exec(callback);
+        },
+        findAddr: function (Oid, callback) {
+            return this.find({smart_addr: Oid})
+                .populate('smart_addr')
+                .exec(callback);
         }
     }
 

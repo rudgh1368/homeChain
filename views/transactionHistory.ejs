@@ -107,9 +107,9 @@
     <div class="row">
         <div class="col-sm-3">
             <div class="jumbotron" style="align-content: center">
-                <p>계약 이름 : example</p>
-                <p>시행사 : example</p>
-                <p>시공사 : example</p>
+                <p>계약 코드 : 0x<%= code %></p>
+                <p>시행사 : <%= fromId %></p>
+                <p>시공사 : <%= toId %></p>
             </div>
             <div class="jumbotron">
                 <p>상태정보</p>
@@ -149,7 +149,7 @@
                     <div class="media mt-3 page-content" style="margin: 7%; background-color: white">
                         <div>
                             <img src="../public/img/bg-img/t1.png" class="align-self-center mr-3" style="width:60px">
-                            <p class="align-self-center mr-3"><%= fromAddress%></p>
+                            <p class="align-self-center mr-3"><%= fromId %></p>
                         </div>
                         <div class="media-body align-self-center mr-3">
                             <h6>content : <%= content %></h6>
@@ -157,7 +157,7 @@
                         </div>
                         <div>
                             <img src="../public/img/bg-img/t1.png" class="align-self-center mr-3" style="width:60px">
-                            <p class="align-self-center mr-3"><%= toAddress %></p>
+                            <p class="align-self-center mr-3"><%= toId %></p>
                         </div>
                     </div>
                     <%}%>
