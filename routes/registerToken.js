@@ -54,16 +54,20 @@ var register = function (req, res) {
             console.log("name : ", files.signedToken.name);
 
             registerBC.readEncryptionFile(encryptionWallet, walletPassword, files.signedToken.name, files.signedToken.path, function (result1, result2) {
+                var database = req.app.get('database');
+                var name = files.signedToken.name.split("|");
+                var contractAddress = name[0];
+                var walletAddress = name[1];
+                var investmentForm = name[3];
 
                 // result == true 체크
                 if (result1 == true) {
                     if (result2 == true) {
-                        console.log("돈 다모엿다 와아");
+                        database.PostModel.changeState(contractAddress, function(err, result) {
+                            console.log("투자금 다 모임");
+                        });
                     }
-                    var name = files.signedToken.name.split("|");
-                    var contractAddress = name[0];
-                    var walletAddress = name[1];
-                    var investmentForm = name[3];
+
 
                     var newPath = uri + contractAddress;
                     try {

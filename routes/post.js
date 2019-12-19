@@ -323,10 +323,10 @@ var listpost = function (req, res) {
         // 1. 글 리스트
         var options = {
             page: paramPage,
-            perPage: paramPerPage
+            perPage: paramPerPage,
         }
 
-        database.PostModel.list(options, function (err, results) {
+        database.PostModel.listState1(options, function (err, results) {
             if (err) {
                 console.error('게시판 글 목록 조회 중 에러 발생 : ' + err.stack);
 

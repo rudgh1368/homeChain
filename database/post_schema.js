@@ -22,6 +22,7 @@ postSchema.createSchema = function (mongoose) {
                 inv_addr: {type: String, 'default': ''}
             }],
             builder: {type: String, 'default': ''},
+            status: {type: Number, 'default': 1},
             created_at: {type: Date, index: {unique: false}, 'default': Date.now},
             updated_at: {type: Date, index: {unique: false}, 'default': Date.now}
         },
@@ -119,12 +120,18 @@ postSchema.createSchema = function (mongoose) {
                 .skip(options.perPage * options.page)
                 .exec(callback);
         },
-        counting: function () {
-            var self = this;
-            // 비동기 문제를 해결하기 위한 promise 사용
-            return new Promise(function (resolve, reject) {
-                resolve(self.collection.countDocuments());
-            });
+        listState1: function (options, callback) {
+            var criteria = options.criteria || {status: 1};
+
+            this.find(criteria)
+                .populate('writer', 'name provider id')
+                .sort({'created_at': -1})
+                .limit(Number(options.perPage))
+                .skip(options.perPage * options.page)
+                .exec(callback);
+        },
+        countByStatus: function(status, callback) {
+            return this.countDocuments({status: status}, callback);
         },
         findByAddress: function (smart_addr, callback) {
             return this.find({smart_addr: smart_addr}, callback);
@@ -149,6 +156,9 @@ postSchema.createSchema = function (mongoose) {
             this.update({smart_addr: smart_add}, {$push: {investor: {inv_addr: wallet_address}}}, function (e) {
             });
             return this.find({wallet_address: wallet_address}, callback);
+        },
+        changeState: function (smart_addr, callback) {
+            return this.update({smart_addr: smart_addr}, {$set: {status: 2}}, callback);
         }
     }
 

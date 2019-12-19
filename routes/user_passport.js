@@ -3,30 +3,35 @@
 module.exports = function(router, passport) {
     console.log('user_passport 호출됨.');
 
+    var action = function(res, context){
+        return res.render('index.ejs', context);
+    }
     // 메인화면
     router.route('/').get(function(req, res){
         var database = req.app.get('database');
-        var menu_count = 0;
+        var context = {};
+
         if (database.db){
-            // counting()이 실행된 후 실행
-            database.PostModel.counting().then(function (result){
-                menu_count = result;
-                var context = {count: menu_count};
-                // 인증 안된 경우
-                if(!req.user){
-                    console.log('사용자 인증 안된 상태임.');
-                    context.login_success = false;
-                    res.render('index.ejs', context);
-                } else{
-                    console.log('사용자 인증된 상태임.');
-                    console.log('회원정보 로드.');
-                    console.dir(req.user);
-                    context.login_success = true;
-                    context.user = req.user;
-                    res.render('index.ejs', context);
-                }
-            }).catch(function (e){
-                console.log("error in promise");
+            database.PostModel.countByStatus(1, function(err, result1){
+                database.PostModel.countByStatus(2, async function(err, result2){
+                    context.count1 = result1;
+                    context.count2 = result2;
+                    // 인증 안된 경우
+                    if(!req.user){
+                        console.log('사용자 인증 안된 상태임.');
+                        context.login_success = false;
+                        console.log("####", context);
+                        return await action(res, context);
+                    } else{
+                        console.log('사용자 인증된 상태임.');
+                        console.log('회원정보 로드.');
+                        console.dir(req.user);
+                        context.login_success = true;
+                        context.user = req.user;
+                        console.log("####", context);
+                        return await action(res, context);
+                    }
+                });
             });
         }
         console.log('/ 패스 요청됨.');
