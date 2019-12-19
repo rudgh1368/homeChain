@@ -394,7 +394,7 @@ module.exports = {
     }
 };
 function sendEther(address){
-    web3.eth.sendTransaction({from: '0xA2417b690192b1E431ADe39A870aae0c4C05c11B', to:address, value: 10000000000000000, gasLimit: 6721975, gasPrice: 0})
+    web3.eth.sendTransaction({from: '0x3284618cEBF0936A508732A9280291c06af611a3', to:address, value: 10000000000000000, gasLimit: 6721975, gasPrice: 0})
 }
 
 //ccb192cbf9cf07287e90ac3cb0dca21b5a1d806b

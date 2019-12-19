@@ -486,6 +486,9 @@ var showpost = function (req, res) {
                         if (buildingConstructor == "0x0000000000000000000000000000000000000000") {
                             buildingConstructor = "등록 X";
                         }
+                        else {
+                            master = 2;
+                        }
 
                         switch (state) {
                             case '0' :
