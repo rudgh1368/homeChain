@@ -63,18 +63,11 @@ var transactionHistory = function (req, res){
                         var contents = new Array();
 
                         if (statementLength == 0 ) {
-                            context.contents = contents;
-                            req.app.render('transactionHistory', context, function (err, html) {
-                                if (err) {
-                                    console.error('응답 웹문서 생성 중 에러 발생 : ' + err.stack);
-
-                                    res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
-                                    res.write('<script>alert("응답 웹문서 생성 중 에러 발생" + err.stack);' +
-                                        'location.href="/mypage"</script>');
-                                    res.end();
-                                    return;
-                                }
-                            });
+                            console.log('거래내역이 없음.');
+                            res.writeHead('200', {'Content-Type': 'text/html;charset=utf8'});
+                            res.write('<script>alert("거래내역이 없습니다.");' +
+                                'location.href="/mypage"</script>');
+                            return res.end();
                         }
                         else {
                             index = 0;
